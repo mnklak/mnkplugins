@@ -6,4 +6,5 @@ Paste a plugin URL into the Plugins page of Vendetta, following a basic format o
 
 ## Plugins
 UBNR -
-https://mnklak.github.io/mnkplugins/UBNR
+- [UBNR](https://mnklak.github.io/mnkplugins/UBNR/)
+
