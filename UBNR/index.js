@@ -1,25 +1,57 @@
-import { findByProps } from "@vendetta/metro";
-import { after } from "@vendetta/patcher";
-import { showToast } from "@vendetta/ui/toasts";
+/**
+ * UBNR Plugin
+ * URL: https://mnklak.github.io/mnkplugins/UBNR
+ */
 
-const UserProfile = findByProps("UserProfile");
+let commandId;
+let intervalId;
 
-let unpatch;
+export const onLoad = () => {
+  console.log("[UBNR] Plugin loaded");
 
-export function onLoad() {
-  const customBannerUrl = "https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"; // Replace with your own image or GIF URL
-
-  unpatch = after("UserProfile", UserProfile, (_, args, res) => {
-    if (res?.props) {
-      res.props.banner = customBannerUrl;
-      res.props.bannerColor = "#000000"; // Optional fallback color
-    }
+  // Comando: /ubnr
+  commandId = powercord.api.commands.registerCommand({
+    command: "ubnr",
+    description: "Exibe uma mensagem personalizada",
+    usage: "{c}ubnr",
+    executor: () => ({
+      send: false,
+      result: "UBNR plugin está ativo e funcionando!"
+    })
   });
 
-  showToast("UBNR banner applied locally!", 3000);
+  // Evento: Mensagem automática a cada 60 segundos
+  intervalId = setInterval(() => {
+    const channel = getCurrentChannel();
+    if (channel) {
+      sendMessage(channel.id, { content: "Mensagem automática do UBNR plugin." });
+    }
+  }, 60000);
+};
+
+export const onUnload = () => {
+  console.log("[UBNR] Plugin unloaded");
+
+  // Remover comando
+  if (commandId) {
+    powercord.api.commands.unregisterCommand("ubnr");
+  }
+
+  // Parar evento automático
+  if (intervalId) {
+    clearInterval(intervalId);
+  }
+};
+
+// Utilitários internos
+function getCurrentChannel() {
+  const { getChannelId } = await import("powercord/api/commands");
+  const { getChannel } = await import("powercord/entities/ChannelStore");
+  const channelId = getChannelId?.();
+  return channelId ? getChannel(channelId) : null;
 }
 
-export function onUnload() {
-  unpatch?.();
-  showToast("UBNR banner removed.", 3000);
+function sendMessage(channelId, message) {
+  const { sendMessage } = await import("powercord/entities/MessageActions");
+  sendMessage(channelId, message);
 }
