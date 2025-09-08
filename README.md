@@ -15,4 +15,5 @@ UBNR is a modular plugin designed to extend functionality within your applicatio
 - Event handling
 - Scalable architecture
 
-https://mnklak.github.io/mnkplugins/UBNR
+- [UBNR](https://mnklak.github.io/mnkplugins/UBNR/)
+
