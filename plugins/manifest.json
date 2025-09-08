@@ -1,0 +1,15 @@
+{
+  "name": "Custom Banner",
+  "description": "Locally override any Discord profile banner with a custom image or GIF — no Nitro required.",
+  "authors": [
+    {
+      "name": "mnklak",
+      "github": "https://github.com/mnklak"
+    }
+  ],
+  "version": "1.0.0",
+  "vendetta": {
+    "icon": "image",
+    "original": "https://github.com/mnklak/mnkplugins"
+  }
+}
